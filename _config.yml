@@ -1,0 +1,20 @@
+auto: true
+markdown: rdiscount
+permalink: /:title
+production_url: http://www.qiufupo.com
+pygments: true
+paginate: 10
+
+title: 求富婆
+tagline: 富婆，富婆，我爱你！求你快快来包养……
+author:
+  name: kooker
+  real_name: 马来
+  email: admin@kooker.jp
+  info: 已在而立之年
+  description: 胸无大志，悲观冷血，不苟言笑，聪明好学
+duoshuo_short_name: qiufupo
+cdn_url: http://qiufupo.qiniudn.com/img/
+file_url: http://qiufupo.qiniudn.com/file/
+media_url: http://qiufupo.jd-app.com/file/
+# cdn_url: http://kooker.cdn.duapp.com/img/

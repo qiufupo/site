@@ -1,0 +1,64 @@
+---
+layout: default
+title: 404
+---
+<div class="s_left">
+<p>&#160;&#160;<strong>找不到您想要的,已进入小黑屋！</strong>您可以看看下面的文章列表或<a href="https://list.kooker.jp/Web-List" target="_blank">每天更新的在线代理</a></p>
+  {% capture post_year1 %}{{ site.time | date: '%Y' }}{% endcapture %}
+<h2>&#160;&#160;{{ post_year1 }}</h2>
+<ul>
+{% for post in site.posts %}
+{% capture post_year2 %}{{ post.date | date: '%Y' }}{% endcapture %}
+{% if post_year1 != post_year2 %}
+{% assign post_year1 = post_year2 %}
+</ul>
+<h2>&#160;&#160;{{ post_year1 }}</h2>
+<ul>
+{% endif %}
+<li class="sa_abstract"><span>{{ post.date | date: "%b %d, %Y" }}</span> <a href="{{ post.url }}">{{ post.title }}</a></li>
+{% endfor %}
+</ul>
+</div>
+
+<div class="sa_right clearfix">
+<div class="s_i_r_title"><span>作者信息</span></div>
+<div class="sa_articleinfo">
+<div class="clearfix">
+<div class="sa_avatar"><img src="{{ site.production_url }}/images/author.jpg"></div>
+<div class="sa_text">
+<p><span>{{ site.author.name }} {{ site.author.info }}</span></p>
+<p>{{ site.author.description }}</p>
+<p style="min-height:10px;"></p>
+</div>
+<ul class="clearfix sa_authorinfo">
+<li><span class="s">{{ site.posts.size }}</span>文章</li>
+<li><span class="s">{{ site.tags.size }}</span>标签</li>
+<aside id="socials">
+<li id="weibo"><a class="ir" href="http://weibo.com/mjjinc" title="新浪微博" rel="external">kooker 新浪微博</a></li>
+<li id="github"><a class="ir" href="https://github.com/kooker" title="github" rel="external">github</a></li>
+<li id="mp3"><a class="ir" href="http://kooker.duapp.com/mp3" title="MP3分享列表" rel="external">MP3分享列表</a></li>
+<li id="rss"><a class="ir" href="{{ site.production_url }}/atom.xml" title="RSS" rel="external">RSS</a></li>
+</aside>
+</ul>
+</div>
+</div>
+
+<div class="s_i_r_title"><span>二维码</span></div>
+<div class="clearfix">
+<img src="http://www.qiufupo.com/images/er.jpg">
+</div>
+
+<div class="sa_hotarticles">
+<div class="sa_right_title_b">最新评论</div>
+<ol class="ds-recent-comments" data-num-items="8" data-show-avatars="1" data-show-time="0" data-show-admin="0" data-excerpt-length="20"></ol>
+</div>
+
+<div class="sa_hotarticles">
+<div class="sa_right_title_b">友情链接</div>
+<ul>
+<li><a href="http://www.kooker.jp" title="">技术支持</a></li>
+<li><a href="https://list.kooker.jp/" title="Free Fresh Proxy List Updated Daily" target="_blank">Free Fresh Proxies</a></li>
+</ul>
+</div>
+
+</div><!-- End  sa_right-->

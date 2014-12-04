@@ -1,0 +1,144 @@
+---
+layout: default
+---
+<div class="sa_mark"><div class="sa_bookmark sa_bookmark_right">
+	<a title="分享到新浪微博" class="share_1" href="javascript:void(0)" onclick="window.open('http://v.t.sina.com.cn/share/share.php?url='+encodeURI(document.location)+'&amp;appkey=1692325264&amp;title='+encodeURI(document.title) , 'newwindow', 'height=330,width=550,top=' + (screen.height - 280) / 2 + ',left=' + (screen.width - 550) / 2 + ', toolbar=no, menubar=no, scrollbars=no,resizable=yes,location=no, status=no')"> </a>
+	<a href="javascript:void(0)" onclick="window.open('http://v.t.qq.com/share/share.php?title='+encodeURIComponent(document.title)+'&amp;url='+encodeURIComponent(location.href)+'&amp;source=bookmark','_blank','width=610,height=350')" title="分享到QQ微博"> </a>
+	<a href="javascript:void(function(){var%20d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:'',r='http://www.douban.com/recommend/?url='+e(d.location.href)+'&amp;title='+e(d.title)+'&amp;sel='+e(s)+'&amp;v=1',x=function(){if(!window.open(r,'douban','toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330'))location.href=r+'&amp;r=1'};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()" title="分享到豆瓣"> </a>
+	<a class="favorite" href="javascript:void(0)"   onclick="addfa(this);" title="收藏"></a>
+</div></div>
+	<div class="sa_main clearfix fff_bgc">
+		<div id="sa_left" class="sa_left closetag">
+			<div class="sa_right_point" style="display: none;"><a title="关闭文章二维码" href="javascript:void(0);" onclick="sidebar()"></a></div>
+			<div class="sa_title_box">
+				<h1 class="sa_title sa_title_pr">{{ page.title }}</h1>
+						<div style="display: block;" class="sa_left_info">
+					<ul class="clearfix">
+						<li><span class="sa_blue">{{ page.date | date: '%Y' }}</span>年</li>
+						<li><span class="sa_blue">{{ page.date | date: '%m' }}</span>月</li>
+						<li class="last"><span class="sa_blue">{{ page.date | date: '%d' }}</span>日</li>
+					</ul>
+					<div class="opentag" style="display:block"><a href="javascript:void(0);" onclick="sidebar()">打开文章二维码</a></div>
+				</div>
+			</div>
+			<div class="sa_author"><span>译者：{{ page.yee_author }}</span><br />原文作者：<span>{{ page.yee_toa }}</span><br />原文地址：<span>{{ page.yee_toa_url }}</span></div>
+									<div class="sa_content">{{ content }}</div>
+			<div class="sa_copyright clearfix">
+				<div class="clearfix">
+					<div class="sa_cp">本文基于“<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.zh" rel="license external nofollow" class="sa_blue"><strong>CC BY-NC-SA 3.0</strong></a>”发布，仅用于学习和交流目的。非商业转载请注明作者、出处，并保留文章的完整链接。</div>
+					<ul class="sa_source">
+						<li>译文来源：<span class="sa_blue">译言精选</span></li>
+						<li>译文标题：<span class="sa_blue">{{ page.title | escape }}</span></li>
+						<li>译文地址：<a class="sa_blue" rel="next" href="{{ page.yee_url }}" title="{{ page.title | escape }}">{{ page.yee_url }}</a></li>
+					</ul>
+					</div>
+				<div class="sa_switch_open sa_switch_close"><a href="javascript:void(0);" onclick="sidebar()">打开文章二维码</a></div>
+			</div>
+			{% if page.previous or page.next %}
+			<ul class="sa_next clearfix">
+				{% if page.next %}
+				<li class="next"><a rel="next" href="{{ page.next.url }}" title="{{ page.next.title | escape }}"></a></li>
+				<li class="title"><a rel="next" href="{{ page.next.url }}" title="{{ page.next.title | escape }}">{{ page.next.title | escape }}</a></li>
+				{% else page.previous %}
+				<li class="title"><a rel="prev" href="{{ page.previous.url }}" title="{{ page.previous.title | escape }}">{{ page.previous.title | escape }}</a></li>
+				{% endif %}				
+				{% if page.previous %}
+				<li class="pre"><a rel="prev" href="{{ page.previous.url }}" title="{{ page.previous.title | escape }}"></a></li>
+				{% endif %}
+			</ul>
+			{% endif %}
+				<!-- START Donations--><aside>
+				<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+				<input name="cmd" value="_donations" type="hidden">
+				<input name="business" value="admin@kooker.jp" type="hidden">
+				<input name="item_name" value="Donate QiuFuPo.Com" type="hidden">
+				<input name="no_shipping" value="0" type="hidden">
+				<input name="no_note" value="1" type="hidden">
+				<input name="currency_code" value="USD" type="hidden">
+				<input name="tax" value="0" type="hidden">
+				<input name="lc" value="US" type="hidden">
+				<input name="bn" value="PP-DonationsBF" type="hidden">
+				<input src="{{ site.production_url }}/images/donate.gif" name="submit" alt="Donate WWW.QiuFuPo.Com" border="0" type="image">
+				<img alt="" src="{{ site.production_url }}/images/pixel.gif" border="0" height="1" width="1">
+				</form>
+				</aside><!-- END Donations -->
+			<div class="sa_comments">
+			  <div class="name">已收集到<span class="ds-thread-count sa_blue" data-thread-key="/{{ page.title | escape }}"></span>评论</div>
+				<div class="g_comments">
+					<div class="sa_comment_list">
+      <!-- Duoshuo Comment BEGIN -->
+      <div class="ds-thread" data-thread-key="{{ page.id }}" data-title="{{ page.title | escape }}"></div>
+      <!-- Duoshuo Comment END --></div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="sa_right" class="sa_right" style="display: none;">
+			<div class="sa_articleinfo top_box">
+				<ul class="clearfix">
+						<li><span class="sa_blue">{{ page.content.size }}</span>字节</li>
+						<li><span class="sa_blue">{{ page.tags.size }}</span>标签</li>
+						<li class="last"><span class="ds-thread-count sa_blue" data-thread-key="/{{ page.title | escape }}"></span>评论</li>
+				</ul>
+				<div class="sa_articletag clearfix">  
+				{% for tag in page.tags %}
+    				<a href="/tags/#{{ tag }}">{{ tag }}</a>
+				{% endfor %}</div>
+				</div>
+				
+				{% if page.img %}
+				<div class="sa_articleinfo">
+				<img src="{{ site.cdn_url }}{{ page.img }}" style="max-width:200px; max-height:200px;" alt="{{ page.title | escape }}" />
+				</div>
+				{% endif %}
+				
+				<div class="sa_right_title"><span>扫一扫</span></div>
+				<div class="clearfix">
+				<!-- <img src='https://chart.googleapis.com/chart?cht=qr&chl={{ site.production_url }}{{ page.url }}/&chld=H|0&choe=UTF-8&chs=200x200'  style="padding-left: 15px;max-width:200px; max-height:200px;" alt="{{ page.title | escape }} QR"  /> -->
+				<img src='http://chart.googleapis.com/chart?cht=qr&chl={{ site.production_url }}{{ page.url }}/&chld=H|0&choe=UTF-8&chs=200x200'  style="padding-left: 15px;max-width:200px; max-height:200px;" alt="{{ page.title | escape }} QR"  />
+				</div>
+				
+				<div class="sa_right_title clearfix"><span>赞助商推广</span></div>
+				<!-- 推广 --><aside class="sa_articleinfo"><a data-type="3" data-tmpl="200x200" data-tmplid="197" data-rd="2" data-style="2" data-border="1" href="#"></a></aside>
+				
+				<div class="sa_hotarticles">
+				<div class="sa_right_title_b">最新文章</div>
+				<ul>
+      				{% for post in site.posts limit: 10 %}
+      				<li><a href="{{ production_url }}{{ post.url }}" title="{{ post.title | escape }}">{{ post.title }}</a> <span class="ds-thread-count" data-thread-key="{{ post.id }}"></span>评论</li>
+      				{% endfor %}
+    				</ul>
+				</div>
+
+			</div></div><!-- End  sa_right-->
+			
+{% if page.addon %}
+{{ site.SyntaxHighlighter }}
+{% endif %}
+<script type="text/javascript">
+function sidebar() {
+	var boxtag = $("#sa_right").css("display");
+	if (boxtag == 'none') {
+		$("#sa_right").css("display", "block");
+		$(".sa_right_point").css("display", "block");
+		$(".sa_left_info").css("display", "none");
+		$("#sa_left").removeClass("closetag");
+		$(".sa_main").removeClass("fff_bgc");
+		$(".sa_bookmark").removeClass("sa_bookmark_right");
+		$(".sa_switch_open").removeClass("sa_switch_close");
+		$(".sa_title").removeClass("sa_title_pr");
+		$(".sa_switch_open a").html("关闭文章二维码");
+	} else if (boxtag == 'block') {
+		$("#sa_right").css("display", "none");
+		$(".sa_right_point").css("display", "none");
+		$(".sa_left_info").css("display", "block");
+		$("#sa_left").addClass("closetag");
+		$(".sa_main").addClass("fff_bgc");
+		$(".sa_bookmark").addClass("sa_bookmark_right");
+		$(".sa_switch_open").addClass("sa_switch_close");
+		$(".sa_title").addClass("sa_title_pr");
+		$(".sa_switch_open a").html("打开文章二维码");
+	};
+}
+</script>
+<script type="text/javascript"> (function(win,doc){ var s = doc.createElement("script"), h = doc.getElementsByTagName("head")[0]; if (!win.alimamatk_show) { s.charset = "gbk"; s.async = true; s.src = "http://a.alimama.cn/tkapi.js"; h.insertBefore(s, h.firstChild); }; var o = { pid: "mm_43407048_5960371_20856941",/*推广单元ID，用于区分不同的推广渠道*/ appkey: "",/*通过TOP平台申请的appkey，设置后引导成交会关联appkey*/ unid: ""/*自定义统计字段*/ }; win.alimamatk_onload = win.alimamatk_onload || []; win.alimamatk_onload.push(o); })(window,document);</script>
