@@ -7,8 +7,14 @@ tags:
   - ['OpenShift','Nginx','PHP']
 description: OpenShift搭建Nginx1.7.x + PHP5.6.x + Google反向代理设置 编译安装过程的一些记录
 ---
-<p><em>最后更新于2014年11月15日</em></p>
-
+<p><em>最后更新于2014年12月09日</em></p>
+<p><em>已创建一个 OpenShift DIY 应用并添加 Cron 1.4 登入SSH，使用本站提供的脚本安装 Nginx1.7.8 + PHP5.6.3 执行如下命令</em></p>
+{%highlight bash%}
+cd /tmp
+wget --no-check-certificate https://www.kooker.jp/openshift-auto-install-nginx-php.sh
+chmod 711 openshift-auto-install-nginx-php.sh
+./openshift-auto-install-nginx-php.sh
+{%endhighlight%}
 <audio src="http://qiufupo.qiniudn.com/file/买醉的人.mp3" preload="load" loop="loop" controls="controls">http://qiufupo.qiniudn.com/file/买醉的人.mp3</audio>
 
 需要注意的是，本文档使用 'x' 来表示未知，本文档使用 '…' 来表示省略一些配置 make -j4 多核同时编译。
@@ -26,9 +32,9 @@ Install Nginx
 {%highlight bash%}
 cd $OPENSHIFT_TMP_DIR
 
-wget http://nginx.org/download/nginx-1.7.7.tar.gz
+wget http://nginx.org/download/nginx-1.7.x.tar.gz
 
-tar zxf nginx-1.7.7.tar.gz
+tar zxf nginx-1.7.x.tar.gz
 
 wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.36.tar.gz
 
@@ -42,11 +48,11 @@ wget https://github.com/yaoweibin/ngx_http_substitutions_filter_module/archive/m
 
 unzip master.zip.1
 
-cd nginx-1.7.7
+cd nginx-1.7.x
 
-./configure --prefix=$OPENSHIFT_DATA_DIR --with-pcre=$OPENSHIFT_TMP_DIR/pcre-8.36 --with-ipv6 --with-http_spdy_module --with-http_realip_module --with-http_sub_module --with-http_stub_status_module --with-http_ssl_module --with-http_flv_module --with-http_gzip_static_module --with-http_auth_request_module --with-http_geoip_module --with-http_secure_link_module --with-http_mp4_module --with-http_image_filter_module --add-module=$OPENSHIFT_TMP_DIR/ngx_http_substitutions_filter_module-master --add-module=$OPENSHIFT_TMP_DIR/ngx_cache_purge-master
+./configure --prefix=$OPENSHIFT_DATA_DIR --with-pcre=${OPENSHIFT_TMP_DIR}pcre-8.36 --with-ipv6 --with-http_spdy_module --with-http_realip_module --with-http_sub_module --with-http_stub_status_module --with-http_ssl_module --with-http_flv_module --with-http_gzip_static_module --with-http_auth_request_module --with-http_geoip_module --with-http_secure_link_module --with-http_mp4_module --with-http_image_filter_module --add-module=${OPENSHIFT_TMP_DIR}ngx_http_substitutions_filter_module-master --add-module=${OPENSHIFT_TMP_DIR}ngx_cache_purge-master
 
-./configure --prefix=$OPENSHIFT_DATA_DIR --with-pcre=$OPENSHIFT_TMP_DIR/pcre-8.36 --with-ipv6 --with-http_spdy_module --with-http_realip_module --with-http_sub_module --with-http_stub_status_module --with-http_ssl_module --with-http_gzip_static_module --with-http_auth_request_module --add-module=$OPENSHIFT_TMP_DIR/ngx_http_substitutions_filter_module-master --add-module=$OPENSHIFT_TMP_DIR/ngx_cache_purge-master
+./configure --prefix=$OPENSHIFT_DATA_DIR --with-pcre=${OPENSHIFT_TMP_DIR}pcre-8.36 --with-ipv6 --with-http_spdy_module --with-http_realip_module --with-http_sub_module --with-http_stub_status_module --with-http_ssl_module --with-http_gzip_static_module --with-http_auth_request_module --add-module=${OPENSHIFT_TMP_DIR}ngx_http_substitutions_filter_module-master --add-module=${OPENSHIFT_TMP_DIR}ngx_cache_purge-master
 
 make -j4 && make install
 {%endhighlight%}
@@ -86,7 +92,7 @@ http {
 # script. The application will work only if it binds to
 # $OPENSHIFT_DIY_IP:8080
 #nohup $OPENSHIFT_REPO_DIR/diy/testrubyserver.rb $OPENSHIFT_DIY_IP $OPENSHIFT_REPO_DIR/diy |& /usr/bin/logshifter -tag diy &
-nohup $OPENSHIFT_DATA_DIR/sbin/nginx > $OPENSHIFT_LOG_DIR/server.log 2>&1 &
+nohup ${OPENSHIFT_DATA_DIR}sbin/nginx > $OPENSHIFT_LOG_DIR/server.log 2>&1 &
 {%endhighlight%}
 
 重启应用
@@ -100,23 +106,19 @@ Install PHP
 {%highlight bash%}
 cd /tmp
 
-wget http://us3.php.net/distributions/php-5.6.3.tar.gz
-
-tar zxf php-5.6.3.tar.gz
-
 wget -O libmcrypt-2.5.8.tar.gz http://downloads.sourceforge.net/mcrypt/libmcrypt-2.5.8.tar.gz?big_mirror=0
 
 tar zxf libmcrypt-2.5.8.tar.gz
 
 cd libmcrypt-2.5.8
 
-./configure --prefix=$OPENSHIFT_DATA_DIR/libmcrypt
+./configure --prefix=${OPENSHIFT_DATA_DIR}usr/local
 
 make -j4 && make install
 
 cd libltdl
 
-./configure --prefix=$OPENSHIFT_DATA_DIR/libmcrypt --enable-ltdl-install
+./configure --prefix=${OPENSHIFT_DATA_DIR}usr/local --enable-ltdl-install
 
 make -j4 && make install
 
@@ -128,7 +130,7 @@ tar zxvf mhash-0.9.9.9.tar.gz
 
 cd mhash-0.9.9.9
 
-./configure --prefix=$OPENSHIFT_DATA_DIR/libmcrypt
+./configure --prefix=${OPENSHIFT_DATA_DIR}usr/local
 
 make -j4 && make install
 
@@ -140,29 +142,35 @@ tar zxf mcrypt-2.6.8.tar.gz
 
 cd mcrypt-2.6.8
 
-export LDFLAGS="-L$OPENSHIFT_DATA_DIR/libmcrypt/lib -L/usr/lib"
+export LDFLAGS="-L${OPENSHIFT_DATA_DIR}usr/local/lib -L/usr/lib"
 
-export CFLAGS="-I$OPENSHIFT_DATA_DIR/libmcrypt/include -I/usr/include"
+export CFLAGS="-I${OPENSHIFT_DATA_DIR}usr/local/include -I/usr/include"
 
-export LD_LIBRARY_PATH="/usr/lib/:$OPENSHIFT_DATA_DIR/libmcrypt/lib"
+export LD_LIBRARY_PATH="/usr/lib/:${OPENSHIFT_DATA_DIR}usr/local/lib"
+
+export PATH="/bin:/usr/bin:/usr/sbin:${OPENSHIFT_DATA_DIR}usr/local/bin:${OPENSHIFT_DATA_DIR}bin:${OPENSHIFT_DATA_DIR}sbin"
 
 touch malloc.h
 
-./configure --prefix=$OPENSHIFT_DATA_DIR/libmcrypt --with-libmcrypt-prefix=$OPENSHIFT_DATA_DIR/libmcrypt
+./configure --prefix=${OPENSHIFT_DATA_DIR}usr/local --with-libmcrypt-prefix=${OPENSHIFT_DATA_DIR}usr/local
 
 make -j4 && make install
 
 cd ..
 
-cd php-5.6.3
+wget -O php-5.6.x.tar.gz http://us3.php.net/get/php-5.6.x.tar.gz/from/this/mirror
 
-./configure --prefix=$OPENSHIFT_DATA_DIR --with-config-file-path=$OPENSHIFT_DATA_DIR/etc --with-layout=GNU --with-mcrypt=$OPENSHIFT_DATA_DIR/libmcrypt --with-pear --with-mysql --with-pgsql --with-mysqli --with-pdo-mysql --with-pdo-pgsql --enable-pdo --with-pdo-sqlite --with-sqlite3 --with-openssl --with-zlib-dir --with-iconv-dir --with-freetype-dir --with-jpeg-dir --with-png-dir --with-zlib --with-bz2 --with-libxml-dir --with-curl --with-gd --with-xsl --with-xmlrpc --with-mhash --with-gettext --with-readline --with-kerberos --with-pcre-regex --disable-debug --enable-json --enable-bcmath --enable-cli --enable-calendar --enable-dba --enable-wddx --enable-inline-optimization --enable-simplexml --enable-filter --enable-ftp --enable-tokenizer --enable-dom --enable-exif --enable-mbregex --enable-fpm --enable-mbstring --enable-gd-native-ttf --enable-xml --enable-xmlwriter --enable-xmlreader --enable-pcntl --enable-sockets --enable-zip --enable-soap --enable-shmop --enable-sysvsem --enable-sysvshm --enable-sysvsem --enable-sysvmsg --enable-intl --enable-maintainer-zts --enable-opcache
+tar xzf php-5.6.x.tar.gz
 
-make && make install
+cd php-5.6.x
 
-cp php.ini-development $OPENSHIFT_DATA_DIR/etc/php.ini
+./configure --prefix=$OPENSHIFT_DATA_DIR --with-config-file-path=${OPENSHIFT_DATA_DIR}etc --with-layout=GNU --with-mcrypt=${OPENSHIFT_DATA_DIR}usr/local --with-pear --with-mysql --with-pgsql --with-mysqli --with-pdo-mysql --with-pdo-pgsql --enable-pdo --with-pdo-sqlite --with-sqlite3 --with-openssl --with-zlib-dir --with-iconv-dir --with-freetype-dir --with-jpeg-dir --with-png-dir --with-zlib --with-bz2 --with-libxml-dir --with-curl --with-gd --with-xsl --with-xmlrpc --with-mhash --with-gettext --with-readline --with-kerberos --with-pcre-regex --disable-debug --enable-json --enable-bcmath --enable-cli --enable-calendar --enable-dba --enable-wddx --enable-inline-optimization --enable-simplexml --enable-filter --enable-ftp --enable-tokenizer --enable-dom --enable-exif --enable-mbregex --enable-fpm --enable-mbstring --enable-gd-native-ttf --enable-xml --enable-xmlwriter --enable-xmlreader --enable-pcntl --enable-sockets --enable-zip --enable-soap --enable-shmop --enable-sysvsem --enable-sysvshm --enable-sysvsem --enable-sysvmsg --enable-intl --enable-maintainer-zts --enable-opcache
 
-cp $OPENSHIFT_DATA_DIR/etc/php-fpm.conf.default $OPENSHIFT_DATA_DIR/etc/php-fpm.conf
+make -j4 && make install
+
+cp php.ini-development ${OPENSHIFT_DATA_DIR}etc/php.ini
+
+cp ${OPENSHIFT_DATA_DIR}etc/php-fpm.conf.default ${OPENSHIFT_DATA_DIR}etc/php-fpm.conf
 {%endhighlight%}
 
 需要着重提醒的是，如果文件不存在，则阻止 Nginx 将请求发送到后端的 PHP-FPM 模块， 以避免遭受恶意脚本注入的攻击。
@@ -178,7 +186,6 @@ PHP 5.5.x 已经集成 Zend Opcache 功能缓存速度比 APC、eAccelerator、X
 zend_extension=opcache.so
 [opcache]
 opcache.enable=1
-opcache.memory_consumption=128
 opcache.interned_strings_buffer=8
 opcache.max_accelerated_files=4000
 opcache.revalidate_freq=60
@@ -200,7 +207,6 @@ listen = 127.x.x.x:9000
 </pre>
 
 编辑app-root/data/conf/nginx.conf
-
 <pre>
         location ~ \.php$ {
             fastcgi_index   index.php;
@@ -211,30 +217,63 @@ listen = 127.x.x.x:9000
 }
 </pre>
 
-编辑.openshift/action_hooks/start
+安装memcache
+{%highlight bash%}
+wget http://pecl.php.net/get/memcache-3.0.8.tgz
 
+tar xzf memcache-3.0.8.tgz
+
+cd memcache-3.0.8
+
+phpize
+
+./configure --with-php-config=${OPENSHIFT_DATA_DIR}/bin/php-config --enable-memcache
+
+make -j4 && make install
+{%endhighlight%}
+编辑 php.ini 增加
+<pre>extension=memcache.so</pre>
+
+安装geoip
+{%highlight bash%}
+wget http://pecl.php.net/get/geoip-1.0.8.tgz
+
+tar xzf geoip-1.0.8.tgz
+
+cd geoip-1.0.8
+
+phpize
+
+./configure --with-php-config=${OPENSHIFT_DATA_DIR}/bin/php-config --with-geoip
+
+make -j4 && make install
+{%endhighlight%}
+编辑 php.ini 增加
+<pre>extension=geoip.so</pre>
+
+编辑.openshift/action_hooks/start
 {%highlight bash%}
 #!/bin/bash
 # The logic to start up your application should be put in this
 # script. The application will work only if it binds to
 # $OPENSHIFT_DIY_IP:8080
 #nohup $OPENSHIFT_REPO_DIR/diy/testrubyserver.rb $OPENSHIFT_DIY_IP $OPENSHIFT_REPO_DIR/diy |& /usr/bin/logshifter -tag diy &
-nohup $OPENSHIFT_DATA_DIR/sbin/nginx > $OPENSHIFT_LOG_DIR/server.log 2>&1 &
-nohup $OPENSHIFT_DATA_DIR/sbin/php-fpm &
+nohup ${OPENSHIFT_DATA_DIR}sbin/nginx > $OPENSHIFT_LOG_DIR/server.log 2>&1 &
+nohup ${OPENSHIFT_DATA_DIR}sbin/php-fpm &
 {%endhighlight%}
 
 {%highlight bash%}
-echo "<?php phpinfo(); ?>" >> $OPENSHIFT_DATA_DIR/html/info.php 
+echo "<?php phpinfo(); ?>" >> ${OPENSHIFT_DATA_DIR}html/info.php 
 {%endhighlight%}
 
 启动PHP-FPM
 {%highlight bash%}
-$OPENSHIFT_DATA_DIR/sbin/php-fpm
+${OPENSHIFT_DATA_DIR}sbin/php-fpm
 {%endhighlight%}
 
 重新载入Nginx
 {%highlight bash%}
-$OPENSHIFT_DATA_DIR/sbin/nginx -s reload
+${OPENSHIFT_DATA_DIR}sbin/nginx -s reload
 {%endhighlight%}
 
 打开浏览器，访问 https://appname.rhcloud.com/info.php 可以看到PHP成功运行了
@@ -272,11 +311,11 @@ http {
                       '$status $body_bytes_sent "$http_referer" '
                       '"$http_user_agent" "$http_x_forwarded_for"';
     #$OPENSHIFT_DATA_DIR 为你自己的环境变量 请用 /var/lib/openshift/xxxxxxxxxxxxxxxxx/app-root/data 替代
-    #access_log  $OPENSHIFT_DATA_DIR/logs/access.log  main;
+    #access_log  ${OPENSHIFT_DATA_DIR}logs/access.log  main;
     #
 
     #设置Web缓存区名称为cache_one，内存缓存空间大小为100MB，1天没有被访问的内容自动清除，硬盘缓存空间大小为500m。
-    #proxy_cache_path  $OPENSHIFT_DATA_DIR/proxy_cache  levels=1:2   keys_zone=cache_one:100m inactive=1d max_size=500m;
+    #proxy_cache_path  ${OPENSHIFT_DATA_DIR}proxy_cache  levels=1:2   keys_zone=cache_one:100m inactive=1d max_size=500m;
 
     #设定请求缓冲  
     client_header_buffer_size 32k; #客户端请求头部的缓冲区大小，这个可以根据你的系统分页大小来设置，一般一个请求的头部大小不会超过1k，不过由于一般系统分页都要大于1k，所以这里设置为分页大小。分页大小可以用命令getconf PAGESIZE取得。 
@@ -411,6 +450,8 @@ then
   echo "delete OPENSHIFT_LOG at $(date) ..." >&2
   cd ${OPENSHIFT_DATA_DIR}logs
   rm -rf *.log
+  cd ${OPENSHIFT_DATA_DIR}var/log
+  rm -rf *.log
   echo "delete logs at $(date) ..." >&2
   ) &
   exit
@@ -425,9 +466,9 @@ LD_LIBRARY_PATH
 
 　　要指示动态装入器首先检查某个目录，请将 LD_LIBRARY_PATH 变量设置成您希望搜索的目录。多个路径之间用冒号分隔；例如：
 
-　　export LD_LIBRARY_PATH="/usr/lib/:$OPENSHIFT_DATA_DIR/libmcrypt/lib"
+　　export LD_LIBRARY_PATH="/usr/lib/:${OPENSHIFT_DATA_DIR}usr/local/lib"
 
-　　导出 LD_LIBRARY_PATH 后，如有可能，所有从当前 shell 启动的可执行程序都将使用 /usr/lib/或 $OPENSHIFT_DATA_DIR/libmcrypt/lib 中的库，如果仍不能满足一些共享库相关性要求，则转回到 /etc/ld.so.conf 中指定的库。
+　　导出 LD_LIBRARY_PATH 后，如有可能，所有从当前 shell 启动的可执行程序都将使用 /usr/lib/或 ${OPENSHIFT_DATA_DIR}usr/local/lib 中的库，如果仍不能满足一些共享库相关性要求，则转回到 /etc/ld.so.conf 中指定的库。
 
 OpenShift Nginx + PHP 其它安装方法
 
@@ -443,7 +484,12 @@ http://wiki.nginx.org/Modules
 http://www.zzsec.org/2013/03/install-nginx-in-openshift/  
 http://php.net/manual/zh/install.unix.nginx.php  
 http://php.net/manual/zh/configure.about.php  
+http://php.net/manual/zh/class.memcache.php  
+http://php.net/manual/zh/ref.geoip.php  
+http://php.net/manual/zh/book.pthreads.php  
+http://php.net/manual/zh/migration56.deprecated.php  
 http://blog.snsgou.com/post-523.html  
 http://blog.snsgou.com/post-438.html  
 http://www.9170.org/post-485.html  
-https://www.centos.bz/2014/06/nginx-proxy-google/
+https://www.centos.bz/2014/06/nginx-proxy-google/  
+http://zyan.cc/pthreads/
