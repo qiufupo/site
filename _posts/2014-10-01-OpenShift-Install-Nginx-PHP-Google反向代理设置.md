@@ -7,13 +7,35 @@ tags:
   - ['OpenShift','Nginx','PHP']
 description: OpenShift搭建Nginx1.7.x + PHP5.6.x + Google反向代理设置 编译安装过程的一些记录
 ---
-<p><em>最后更新于2014年12月09日</em></p>
-<p><em>已创建一个 OpenShift DIY 应用并添加 Cron 1.4 登入SSH，使用本站提供的脚本安装 Nginx1.7.8 + PHP5.6.3 执行如下命令</em></p>
+<p><em>最后更新于2014年12月28日</em></p>
+<p><em>在PHP5.6各版本中，6.7%是安全的，93.3%是不安全的。</em></p>
+以下版本的PHP目前是安全的（没有已知漏洞）
+<pre>
+5.6.4
+5.5.20
+5.5.12
+5.5.9
+5.4.36
+5.4.16
+5.4.4
+5.3.10
+5.3.3
+5.3.2
+5.1.6
+</pre>
+<p><em>已创建一个 OpenShift DIY 应用并添加 Cron 1.4 登入SSH，使用本站提供的脚本安装 Nginx1.7.9 + PHP5.6.4 执行如下命令</em></p>
 {%highlight bash%}
 cd /tmp
 wget --no-check-certificate https://www.kooker.jp/openshift-auto-install-nginx-php.sh
 chmod 711 openshift-auto-install-nginx-php.sh
 ./openshift-auto-install-nginx-php.sh
+{%endhighlight%}
+<p><em>使用本站提供的脚本只安装 Nginx</em></p>
+{%highlight bash%}
+cd /tmp
+wget --no-check-certificate https://www.kooker.jp/openshift-auto-install-nginx.sh
+chmod 711 openshift-auto-install-nginx.sh
+./openshift-auto-install-nginx.sh
 {%endhighlight%}
 <audio src="http://qiufupo.qiniudn.com/file/买醉的人.mp3" preload="load" loop="loop" controls="controls">http://qiufupo.qiniudn.com/file/买醉的人.mp3</audio>
 

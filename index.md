@@ -79,7 +79,8 @@ writeLoginPanel({domainlist:"qiufupo.com", mode:"vertical"});
 <div class="sa_hotarticles">
 <div class="sa_right_title_b">常用链接</div>
 <ul>
-<li><a href="http://www.qiufupo.com/%E4%B8%80%E7%82%B9%E8%AE%B0%E5%BD%95/" title="">一点记录</a></li>
+https://associates.amazon.cn/
+<li><a href="https://associates.amazon.cn/" title="Amazon联盟_中国">Amazon联盟</a></li>
 <li><a href="http://www.luoqunju.com/book/42377" title="完美世界 辰东 全文阅读">完美世界</a></li>
 <li><a href="https://www.value-domain.com/" title="Domain" target="_blank">value-domain</a></li>
 <li><a href="http://releases.mozilla.org/pub/mozilla.org/firefox/releases/" title="Firefox Releases" target="_blank">Firefox Releases</a></li>
