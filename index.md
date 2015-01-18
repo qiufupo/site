@@ -70,17 +70,18 @@ writeLoginPanel({domainlist:"qiufupo.com", mode:"vertical"});
 <div class="sa_hotarticles">
 <div class="sa_right_title_b">友情链接</div>
 <ul>
-<li><a href="http://www.kooker.jp/" title="">技术支持</a></li>
+<li><a href="https://www.kooker.jp/" title="">技术支持</a></li>
 <li><a href="http://www.8sa7.com/" title="Fresh Proxy List Updated Daily">Free Fresh Proxies</a></li>
 <li><a href="http://www.qiwei.org/" title="气总的大站" target="_blank">苹果气味</a></li>
+<li><a href="http://www.junduo.com/" title="通过二维码收集客户信息" target="_blank">君多二维码</a></li>
 </ul>
 </div>
 
 <div class="sa_hotarticles">
 <div class="sa_right_title_b">常用链接</div>
 <ul>
-https://associates.amazon.cn/
-<li><a href="https://associates.amazon.cn/" title="Amazon联盟_中国">Amazon联盟</a></li>
+<li><a href="https://affiliate-program.amazon.com/" title="Amazon联盟_海外">Amazon联盟海外</a></li>
+<li><a href="https://associates.amazon.cn/" title="Amazon联盟_中国">Amazon联盟中国</a></li>
 <li><a href="http://www.luoqunju.com/book/42377" title="完美世界 辰东 全文阅读">完美世界</a></li>
 <li><a href="https://www.value-domain.com/" title="Domain" target="_blank">value-domain</a></li>
 <li><a href="http://releases.mozilla.org/pub/mozilla.org/firefox/releases/" title="Firefox Releases" target="_blank">Firefox Releases</a></li>

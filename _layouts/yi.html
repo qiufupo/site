@@ -71,6 +71,21 @@ layout: default
 				{% endfor %}</div>
 				</div>
 				
+				{% if page.img %}
+				<div class="sa_articleinfo">
+				<img src="{{ site.cdn_url }}{{ page.img }}" style="max-width:200px; max-height:200px;" alt="{{ page.title | escape }}" />
+				</div>
+				{% endif %}
+				
+				<div class="sa_right_title"><span>扫一扫</span></div>
+				<div class="clearfix">
+				<!-- <img src='https://chart.googleapis.com/chart?cht=qr&chl={{ site.production_url }}{{ page.url }}/&chld=H|0&choe=UTF-8&chs=200x200'  style="padding-left: 15px;max-width:200px; max-height:200px;" alt="{{ page.title | escape }} QR"  /> -->
+				<img src='http://qr.liantu.com/api.php?&w=200&logo=http://qiufupo.jd-app.com/img/%E7%BD%97%E6%B5%B7%E7%81%B5.jpg&text={{ site.production_url }}{{ page.url }}'  style="padding-left: 15px;max-width:200px; max-height:200px;" alt="{{ page.title | escape }} QR"  />
+				</div>
+				
+				<div class="sa_right_title clearfix"><span>赞助商推广</span></div>
+				<!-- 推广 --><aside style="padding-left: 15px;max-width:200px; max-height:200px;"><script type="text/javascript">BAIDU_CLB_fillSlot("879667");</script></aside>
+				
 				<div class="sa_hotarticles">
 				<div class="sa_right_title_b">最新文章</div>
 				<ul>
